@@ -1,0 +1,284 @@
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --panel: #f9fafb;
+  --muted: #6b7280;
+  --text: #111827;
+  --accent: #f7931a;
+  --border: #e5e7eb;
+  font-family:
+    'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+  line-height: 1.4;
+  font-weight: 400;
+  color: var(--text);
+  background: var(--bg);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 960px;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.appRoot {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  background: var(--bg);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+
+.brandMark {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brandLogo {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
+.brandSuffix {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.identityTag {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.identityCopy {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  cursor: copy;
+}
+
+.identityCopy:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: #fff7ed;
+}
+
+.identityCopy:disabled {
+  cursor: not-allowed;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.tabButton {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  padding: 8px 14px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.tabButton.active {
+  border-color: var(--accent);
+  background: #fff7ed;
+  color: #92400e;
+}
+
+.pageBody {
+  flex: 1;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+textarea {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--text);
+  background: #ffffff;
+}
+
+textarea {
+  resize: vertical;
+}
+
+button {
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #ffffff;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.rowWrap {
+  display: flex;
+  gap: 8px;
+}
+
+.rowWrap input {
+  flex: 1;
+}
+
+.infoBox {
+  padding: 10px;
+  border-radius: 8px;
+  background: #fff7ed;
+  color: #92400e;
+  border: 1px solid #fed7aa;
+}
+
+.warningBox {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #f59e0b;
+  background: #fffbeb;
+  color: #92400e;
+}
+
+.warningBox p {
+  margin: 4px 0 0;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.actions.compact {
+  margin-top: 8px;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.listItem {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.listTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.pill {
+  border-radius: 999px;
+  background: #fff7ed;
+  color: #92400e;
+  padding: 2px 8px;
+  font-size: 12px;
+}
+
+.metaLine {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.note {
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.errorText {
+  color: #dc2626;
+  margin: 0;
+}
+
+.successText {
+  color: #15803d;
+  margin: 0;
+}
+
+.errorBanner {
+  margin-bottom: 8px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+}
