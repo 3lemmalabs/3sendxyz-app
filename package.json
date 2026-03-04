@@ -13,7 +13,8 @@
     "preview": "vite preview",
     "dist": "npm run build && electron-builder",
     "dist:mac": "npm run build && electron-builder --mac",
-    "dist:win": "npm run build && electron-builder --win"
+    "dist:win": "npm run build && electron-builder --win",
+    "dist:release": "npm run build && electron-builder --mac --win"
   },
   "dependencies": {
     "@noble/curves": "^1.9.7",
@@ -54,7 +55,10 @@
     },
     "mac": {
       "category": "public.app-category.productivity",
-      "identity": null,
+      "hardenedRuntime": true,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.inherit.plist",
+      "notarize": true,
       "target": [
         "dmg",
         "zip"
@@ -62,6 +66,7 @@
       "artifactName": "3sendxyz-app-${version}-${arch}.${ext}"
     },
     "win": {
+      "signAndEditExecutable": true,
       "target": [
         "nsis",
         "zip"
