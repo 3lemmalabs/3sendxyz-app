@@ -4,6 +4,7 @@ import { InboxPage } from './pages/InboxPage';
 import { OutboxPage } from './pages/OutboxPage';
 import { SendPage } from './pages/SendPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { WelcomeModal } from './components/WelcomeModal';
 import './styles.css';
 
 type TabKey = 'send' | 'inbox' | 'outbox' | 'settings';
@@ -117,6 +118,7 @@ export default function App() {
           </>
         ) : null}
       </main>
+      <WelcomeModal />
     </div>
   );
 }
