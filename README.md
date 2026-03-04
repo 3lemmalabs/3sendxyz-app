@@ -73,6 +73,27 @@ Windows code signing:
 
 When these variables are present, `electron-builder` signs Windows artifacts and signs/notarizes macOS artifacts using the config in `package.json`.
 
+## GitHub Release Workflow
+
+Workflow: `/Users/alessandro/programmazione/3send/3sendxyz-app/.github/workflows/release.yml`
+
+- Trigger: push a tag matching `v*` (example: `v0.2.0`)
+- Jobs:
+  - build signed/notarized macOS artifacts
+  - build signed Windows artifacts
+  - publish all artifacts into a GitHub Release for that tag
+
+Required repository secrets:
+
+- `CSC_LINK`
+- `CSC_KEY_PASSWORD`
+- macOS notarization:
+  - `APPLE_API_KEY`, `APPLE_API_KEY_ID`, `APPLE_API_ISSUER`
+  - or `APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD`, `APPLE_TEAM_ID`
+- Optional Windows-specific override:
+  - `WIN_CSC_LINK`
+  - `WIN_CSC_KEY_PASSWORD`
+
 ## Website dependency
 
 This app expects `https://3send.xyz` API routes to be reachable cross-origin.
