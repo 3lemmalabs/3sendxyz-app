@@ -72,7 +72,7 @@
       "target": [
         "dmg"
       ],
-      "artifactName": "3sendxyz-app-${version}-${arch}.${ext}"
+      "artifactName": "3sendxyz-app-mac-${arch}.${ext}"
     },
     "dmg": {
       "background": "background.png",
@@ -96,7 +96,7 @@
       "target": [
         "zip"
       ],
-      "artifactName": "3sendxyz-app-${version}-${arch}.${ext}"
+      "artifactName": "3sendxyz-app-win-${arch}.${ext}"
     },
     "nsis": {
       "oneClick": false,
