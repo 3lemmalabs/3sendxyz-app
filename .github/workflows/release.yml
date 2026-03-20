@@ -101,8 +101,6 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
       WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
-      CSC_LINK: ${{ secrets.CSC_LINK }}
-      CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -117,21 +115,16 @@ jobs:
         shell: pwsh
         run: |
           $hasWinCert = -not [string]::IsNullOrWhiteSpace($env:WIN_CSC_LINK)
-          $hasSharedCert = -not [string]::IsNullOrWhiteSpace($env:CSC_LINK)
-
-          if (-not $hasWinCert -and -not $hasSharedCert) {
-            Write-Error "Missing Windows signing cert secret. Set WIN_CSC_LINK (or CSC_LINK)."
-            exit 1
-          }
 
           if ($hasWinCert -and [string]::IsNullOrWhiteSpace($env:WIN_CSC_KEY_PASSWORD)) {
             Write-Error "Missing WIN_CSC_KEY_PASSWORD."
             exit 1
           }
 
-          if ($hasSharedCert -and [string]::IsNullOrWhiteSpace($env:CSC_KEY_PASSWORD)) {
-            Write-Error "Missing CSC_KEY_PASSWORD."
-            exit 1
+          if (-not $hasWinCert) {
+            Write-Host "WIN_CSC_LINK not set. Building unsigned Windows artifacts."
+          } else {
+            Write-Host "WIN_CSC_LINK set. Building signed Windows artifacts."
           }
 
       - name: Install dependencies
