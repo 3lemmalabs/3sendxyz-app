@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 
 const WELCOME_STORAGE_KEY = '3send.desktop.welcome.seen';
+const CONNECT_ICON_SRC = `${import.meta.env.BASE_URL}Connect.svg`;
+const UPLOAD_ICON_SRC = `${import.meta.env.BASE_URL}Upload.svg`;
+const LOCK_ICON_SRC = `${import.meta.env.BASE_URL}Lock.svg`;
+const UNLOCK_ICON_SRC = `${import.meta.env.BASE_URL}Unlock.svg`;
 
 function getInitialWelcomeOpenState(): boolean {
   if (typeof window === 'undefined') {
@@ -91,7 +95,7 @@ export function WelcomeModal() {
             <span className="welcomeStepNum" aria-hidden>
               1
             </span>
-            <img className="welcomeStepIcon" src="/Connect.svg" alt="" />
+            <img className="welcomeStepIcon" src={CONNECT_ICON_SRC} alt="" />
             <div className="welcomeStepTitle">Identity created on first launch.</div>
             <div className="muted welcomeStepText">
               The app generates your local EVM address automatically.
@@ -101,7 +105,7 @@ export function WelcomeModal() {
             <span className="welcomeStepNum" aria-hidden>
               2
             </span>
-            <img className="welcomeStepIcon" src="/Upload.svg" alt="" />
+            <img className="welcomeStepIcon" src={UPLOAD_ICON_SRC} alt="" />
             <div className="welcomeStepTitle">Choose file and recipient.</div>
             <div className="muted welcomeStepText">
               Enter a destination address and optional note, then pick your file.
@@ -111,7 +115,7 @@ export function WelcomeModal() {
             <span className="welcomeStepNum" aria-hidden>
               3
             </span>
-            <img className="welcomeStepIcon" src="/Lock.svg" alt="" />
+            <img className="welcomeStepIcon" src={LOCK_ICON_SRC} alt="" />
             <div className="welcomeStepTitle">Encrypt locally and send.</div>
             <div className="muted welcomeStepText">
               Encryption happens on your machine before data is uploaded.
@@ -121,7 +125,7 @@ export function WelcomeModal() {
             <span className="welcomeStepNum" aria-hidden>
               4
             </span>
-            <img className="welcomeStepIcon" src="/Unlock.svg" alt="" />
+            <img className="welcomeStepIcon" src={UNLOCK_ICON_SRC} alt="" />
             <div className="welcomeStepTitle">Recipient decrypts from inbox.</div>
             <div className="muted welcomeStepText">
               Share your app address to receive files with vault-mode decryption.

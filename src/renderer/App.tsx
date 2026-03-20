@@ -8,6 +8,7 @@ import { WelcomeModal } from './components/WelcomeModal';
 import './styles.css';
 
 type TabKey = 'send' | 'inbox' | 'outbox' | 'settings';
+const BRAND_LOGO_SRC = `${import.meta.env.BASE_URL}3sendClear.svg`;
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabKey>('send');
@@ -72,7 +73,7 @@ export default function App() {
     <div className="appRoot">
       <header className="topbar">
         <div className="brandMark">
-          <img src="/3sendClear.svg" alt="3send" className="brandLogo" />
+          <img src={BRAND_LOGO_SRC} alt="3send" className="brandLogo" />
           <span className="brandSuffix">desktop</span>
         </div>
         <button
