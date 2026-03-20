@@ -44,7 +44,7 @@
   },
   "build": {
     "appId": "xyz.3send.desktop",
-    "productName": "3sendxyz App",
+    "productName": "3send",
     "files": [
       "dist/**",
       "!dist/mac*/**",
@@ -62,7 +62,7 @@
       "buildResources": "build"
     },
     "mac": {
-      "executableName": "threesendxyz-app",
+      "executableName": "3send",
       "icon": "icon.icns",
       "category": "public.app-category.productivity",
       "hardenedRuntime": true,
@@ -70,8 +70,7 @@
       "entitlementsInherit": "build/entitlements.mac.inherit.plist",
       "notarize": true,
       "target": [
-        "dmg",
-        "zip"
+        "dmg"
       ],
       "artifactName": "3sendxyz-app-${version}-${arch}.${ext}"
     },
@@ -95,7 +94,6 @@
     "win": {
       "signAndEditExecutable": true,
       "target": [
-        "nsis",
         "zip"
       ],
       "artifactName": "3sendxyz-app-${version}-${arch}.${ext}"

@@ -90,9 +90,6 @@ jobs:
           if-no-files-found: error
           path: |
             dist/3sendxyz-app-*.dmg
-            dist/3sendxyz-app-*.zip
-            dist/*.blockmap
-            dist/latest*.yml
 
   build-windows:
     name: Build Windows Artifacts
@@ -139,10 +136,7 @@ jobs:
           name: release-windows
           if-no-files-found: error
           path: |
-            dist/3sendxyz-app-*.exe
-            dist/3sendxyz-app-*.zip
-            dist/*.blockmap
-            dist/latest*.yml
+            dist/3sendxyz-app-*-x64.zip
 
   publish-release:
     name: Publish GitHub Release

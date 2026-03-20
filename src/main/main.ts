@@ -14,7 +14,7 @@ function createWindow(): BrowserWindow {
     height: 820,
     minWidth: 980,
     minHeight: 680,
-    title: '3sendxyz App',
+    title: '3send',
     webPreferences: {
       preload: path.join(__dirname, 'index.mjs'),
       contextIsolation: true,
