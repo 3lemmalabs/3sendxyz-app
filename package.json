@@ -62,7 +62,7 @@
       "buildResources": "build"
     },
     "mac": {
-      "executableName": "3send",
+      "executableName": "send3",
       "icon": "icon.icns",
       "category": "public.app-category.productivity",
       "hardenedRuntime": true,
@@ -75,7 +75,6 @@
       "artifactName": "3sendxyz-app-mac-${arch}.${ext}"
     },
     "dmg": {
-      "background": "background.png",
       "icon": "icon.icns",
       "contents": [
         {
