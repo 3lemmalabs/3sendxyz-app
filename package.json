@@ -45,6 +45,7 @@
   "build": {
     "appId": "xyz.3send.desktop",
     "productName": "3send",
+    "afterPack": "build/after-pack.cjs",
     "files": [
       "dist/**",
       "!dist/mac*/**",
@@ -62,7 +63,6 @@
       "buildResources": "build"
     },
     "mac": {
-      "executableName": "send3",
       "icon": "icon.icns",
       "category": "public.app-category.productivity",
       "hardenedRuntime": true,
