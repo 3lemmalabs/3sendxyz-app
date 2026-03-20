@@ -12,9 +12,9 @@
     "lint": "eslint . --max-warnings=0",
     "preview": "vite preview",
     "dist": "npm run build && electron-builder",
-    "dist:mac": "npm run build && electron-builder --mac",
+    "dist:mac": "npm run build && electron-builder --mac --universal",
     "dist:win": "npm run build && electron-builder --win",
-    "dist:release": "npm run build && electron-builder --mac --win"
+    "dist:release": "npm run build && electron-builder --mac --universal --win"
   },
   "dependencies": {
     "@noble/curves": "^1.9.7",
@@ -47,6 +47,14 @@
     "productName": "3sendxyz App",
     "files": [
       "dist/**",
+      "!dist/mac*/**",
+      "!dist/win*/**",
+      "!dist/linux*/**",
+      "!dist/*.dmg",
+      "!dist/*.zip",
+      "!dist/*.exe",
+      "!dist/*.blockmap",
+      "!dist/latest*.yml",
       "dist-electron/**",
       "package.json"
     ],
@@ -55,6 +63,7 @@
     },
     "mac": {
       "executableName": "threesendxyz-app",
+      "icon": "icon.icns",
       "category": "public.app-category.productivity",
       "hardenedRuntime": true,
       "entitlements": "build/entitlements.mac.plist",
@@ -65,6 +74,23 @@
         "zip"
       ],
       "artifactName": "3sendxyz-app-${version}-${arch}.${ext}"
+    },
+    "dmg": {
+      "background": "background.png",
+      "icon": "icon.icns",
+      "contents": [
+        {
+          "x": 170,
+          "y": 250,
+          "type": "file"
+        },
+        {
+          "x": 410,
+          "y": 250,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
     },
     "win": {
       "signAndEditExecutable": true,

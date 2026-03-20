@@ -50,6 +50,7 @@ npm run dist:release
 Notes:
 
 - `dist` command builds and packages the current platform.
+- `dist:mac` builds a universal macOS binary (`arm64` + `x64`).
 - Cross-platform packaging requirements depend on host environment.
 - Builds are signed automatically when signing credentials are available in environment variables.
 
