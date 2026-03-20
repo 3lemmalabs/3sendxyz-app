@@ -83,6 +83,28 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Patch notarize codesign check for numeric app names
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const filePath = 'node_modules/@electron/notarize/lib/check-signature.js';
+          const original = fs.readFileSync(filePath, 'utf8');
+          const patched = original.replaceAll('path.basename(opts.appPath)', "'./' + path.basename(opts.appPath)");
+
+          if (patched === original) {
+            if (original.includes("'./' + path.basename(opts.appPath)")) {
+              console.log('Notarize check-signature already patched.');
+              process.exit(0);
+            }
+            console.error('Failed to patch notarize check-signature.js');
+            process.exit(1);
+          }
+
+          fs.writeFileSync(filePath, patched);
+          console.log('Patched notarize check-signature.js to use relative app path.');
+          NODE
+
       - name: Build and package macOS
         run: npm run dist:mac
 
