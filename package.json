@@ -54,6 +54,7 @@
       "buildResources": "build"
     },
     "mac": {
+      "executableName": "threesendxyz-app",
       "category": "public.app-category.productivity",
       "hardenedRuntime": true,
       "entitlements": "build/entitlements.mac.plist",
