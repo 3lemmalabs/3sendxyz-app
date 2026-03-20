@@ -52,8 +52,8 @@ async function requestJson<T extends JsonValue>(
   return payload as ApiResponse<T>;
 }
 
-export async function getFreeAllowance(address: string): Promise<FreeSendAllowance> {
-  const params = new URLSearchParams({ address });
+export async function getFreeAllowance(identity: string): Promise<FreeSendAllowance> {
+  const params = new URLSearchParams({ identity });
   const payload = await requestJson<{ allowance?: FreeSendAllowance }>(
     `/api/send/freeAllowance?${params.toString()}`
   );
@@ -63,8 +63,8 @@ export async function getFreeAllowance(address: string): Promise<FreeSendAllowan
   return payload.allowance;
 }
 
-export async function getReceiverPublicKey(address: string): Promise<ReceiverKeyResult> {
-  const params = new URLSearchParams({ address });
+export async function getReceiverPublicKey(identity: string): Promise<ReceiverKeyResult> {
+  const params = new URLSearchParams({ identity });
   const payload = await requestJson<{ type?: string; publicKey?: string }>(
     `/api/send/getReceiverPublicKey?${params.toString()}`
   );

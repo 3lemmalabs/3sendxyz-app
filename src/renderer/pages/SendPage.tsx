@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { isAddress } from 'viem';
 import {
   createFreePaymentReference,
   getFreeAllowance,
@@ -15,6 +14,7 @@ import {
   REQUIRED_CHAIN_ID,
 } from '../lib/protocol/constants';
 import { encryptFileForRecipient } from '../lib/protocol/encryption';
+import { parseIdentityKey } from '../lib/protocol/identityKey';
 import type { FreeSendAllowance, ReceiverKeyResult } from '../lib/protocol/types';
 
 type SendPageProps = {
@@ -33,17 +33,22 @@ export function SendPage({ address, onUploadCompleted }: SendPageProps) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const normalizedRecipient = recipient.trim();
+  const normalizedRecipientInput = recipient.trim();
+  const parsedRecipient = useMemo(
+    () => parseIdentityKey(normalizedRecipientInput),
+    [normalizedRecipientInput]
+  );
+  const recipientValue = parsedRecipient?.value ?? '';
   const fileTooLarge = Boolean(selectedFile && selectedFile.size > FREE_MICRO_MAX_BYTES);
 
   const canSend = useMemo(() => {
     if (busy || !selectedFile) return false;
     if (fileTooLarge) return false;
-    if (!isAddress(normalizedRecipient)) return false;
+    if (!recipientValue) return false;
     if (loadingAllowance || !allowance) return false;
     if (allowance.remaining <= 0) return false;
     return true;
-  }, [allowance, busy, fileTooLarge, loadingAllowance, normalizedRecipient, selectedFile]);
+  }, [allowance, busy, fileTooLarge, loadingAllowance, recipientValue, selectedFile]);
 
   const loadAllowance = useCallback(async () => {
     setLoadingAllowance(true);
@@ -76,14 +81,14 @@ export function SendPage({ address, onUploadCompleted }: SendPageProps) {
     const { encryptedFile, metadata } = await encryptFileForRecipient({
       file: original,
       recipientPublicKey: receiverKey.publicKey,
-      recipientAddress: normalizedRecipient,
+      recipientAddress: recipientValue,
       note: note.trim() || undefined,
     });
     metadata.keySource = receiverKey.type;
 
     const handshakeMessage = buildSendHandshakeMessage({
       initiator: address,
-      recipient: normalizedRecipient,
+      recipient: recipientValue,
       chainId: REQUIRED_CHAIN_ID,
       paymentTxHash,
       sentAt,
@@ -98,7 +103,7 @@ export function SendPage({ address, onUploadCompleted }: SendPageProps) {
 
     return uploadFreeSend({
       initiator: address,
-      recipient: normalizedRecipient,
+      recipient: recipientValue,
       originalFile: original,
       encryptedFile,
       encryption: metadata,
@@ -119,7 +124,7 @@ export function SendPage({ address, onUploadCompleted }: SendPageProps) {
     setStatus('Resolving recipient key...');
 
     try {
-      const receiverKey = await getReceiverPublicKey(normalizedRecipient);
+      const receiverKey = await getReceiverPublicKey(recipientValue);
 
       let attempts = 0;
       let sent = false;
@@ -164,13 +169,16 @@ export function SendPage({ address, onUploadCompleted }: SendPageProps) {
       <h2>Send</h2>
 
       <div className="fieldGroup">
-        <label>Recipient address</label>
+        <label>Recipient email or wallet address</label>
         <input
-          placeholder="0x..."
+          placeholder="email@domain.com or 0x..."
           value={recipient}
           onChange={(event) => setRecipient(event.target.value)}
           autoComplete="off"
         />
+        {normalizedRecipientInput && !parsedRecipient ? (
+          <p className="errorText">Enter a valid email or wallet address.</p>
+        ) : null}
       </div>
 
       <div className="fieldGroup">

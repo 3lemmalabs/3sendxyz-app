@@ -1,4 +1,5 @@
 import { FREE_PAYMENT_REFERENCE_PREFIX } from './constants';
+import { parseIdentityKey } from './identityKey';
 import type { EncryptionMetadata } from './types';
 import { sha256 } from '@noble/hashes/sha256';
 import { bytesToHex, utf8ToBytes } from '@noble/hashes/utils';
@@ -21,12 +22,11 @@ export type BuildSendHandshakeMessageParams = {
   encryption: EncryptionMetadata;
 };
 
-function normalizeAddress(value: string): string {
+function normalizeIdentityValue(value: string): string {
   const trimmed = value.trim();
-  if (!trimmed.startsWith('0x')) {
-    return `0x${trimmed.toLowerCase()}`;
-  }
-  return `0x${trimmed.slice(2).toLowerCase()}`;
+  const parsed = parseIdentityKey(trimmed);
+  if (parsed) return parsed.value;
+  return trimmed.toLowerCase();
 }
 
 function sanitizeDisplayValue(value: string): string {
@@ -78,8 +78,8 @@ export function computeEncryptionMetadataDigest(metadata: EncryptionMetadata): s
 }
 
 export function buildSendHandshakeMessage(params: BuildSendHandshakeMessageParams): string {
-  const sender = normalizeAddress(params.initiator);
-  const recipient = normalizeAddress(params.recipient);
+  const sender = normalizeIdentityValue(params.initiator);
+  const recipient = normalizeIdentityValue(params.recipient);
   const paymentTx = normalizePaymentReference(params.paymentTxHash);
   const sentAt = toSafeInteger(params.sentAt);
   const plaintextBytes = toSafeInteger(params.plaintextBytes);
