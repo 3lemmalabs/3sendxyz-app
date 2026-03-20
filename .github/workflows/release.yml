@@ -2,13 +2,35 @@ name: Release Desktop Builds
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
+      - codex/*
 
 permissions:
   contents: write
 
 jobs:
+  version:
+    name: Compute Version and Tag
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      version_tag: ${{ steps.version.outputs.version_tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate Semantic Version
+        id: version
+        uses: PaulHatch/semantic-version@v5.4.0
+        with:
+          tag_prefix: "v"
+          major_pattern: "(MAJOR)"
+          minor_pattern: "(feat|feature)"
+          version_format: "${major}.${minor}.${patch}"
+
   build-macos:
     name: Build macOS Artifacts
     runs-on: macos-14
@@ -29,7 +51,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
           cache: npm
 
       - name: Validate macOS signing credentials
@@ -88,7 +110,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
           cache: npm
 
       - name: Validate Windows signing credentials
@@ -132,6 +154,7 @@ jobs:
   publish-release:
     name: Publish GitHub Release
     needs:
+      - version
       - build-macos
       - build-windows
     runs-on: ubuntu-latest
@@ -154,6 +177,7 @@ jobs:
           files: release-assets/**
           fail_on_unmatched_files: true
           generate_release_notes: true
-          tag_name: ${{ github.ref_name }}
+          tag_name: ${{ needs.version.outputs.version_tag }}
+          name: v${{ needs.version.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
