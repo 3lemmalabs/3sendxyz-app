@@ -12,8 +12,9 @@
     "lint": "eslint . --max-warnings=0",
     "preview": "vite preview",
     "dist": "npm run build && electron-builder",
-    "dist:mac": "npm run build && electron-builder --mac",
-    "dist:win": "npm run build && electron-builder --win"
+    "dist:mac": "npm run build && electron-builder --mac --universal",
+    "dist:win": "npm run build && electron-builder --win",
+    "dist:release": "npm run build && electron-builder --mac --universal --win"
   },
   "dependencies": {
     "@noble/curves": "^1.9.7",
@@ -43,9 +44,18 @@
   },
   "build": {
     "appId": "xyz.3send.desktop",
-    "productName": "3sendxyz App",
+    "productName": "3send",
+    "afterPack": "build/after-pack.cjs",
     "files": [
       "dist/**",
+      "!dist/mac*/**",
+      "!dist/win*/**",
+      "!dist/linux*/**",
+      "!dist/*.dmg",
+      "!dist/*.zip",
+      "!dist/*.exe",
+      "!dist/*.blockmap",
+      "!dist/latest*.yml",
       "dist-electron/**",
       "package.json"
     ],
@@ -53,20 +63,39 @@
       "buildResources": "build"
     },
     "mac": {
+      "icon": "icon.icns",
       "category": "public.app-category.productivity",
-      "identity": null,
+      "hardenedRuntime": true,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.inherit.plist",
+      "notarize": true,
       "target": [
-        "dmg",
-        "zip"
+        "dmg"
       ],
-      "artifactName": "3sendxyz-app-${version}-${arch}.${ext}"
+      "artifactName": "3sendxyz-app-mac-${arch}.${ext}"
+    },
+    "dmg": {
+      "icon": "icon.icns",
+      "contents": [
+        {
+          "x": 170,
+          "y": 250,
+          "type": "file"
+        },
+        {
+          "x": 410,
+          "y": 250,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
     },
     "win": {
+      "signAndEditExecutable": true,
       "target": [
-        "nsis",
         "zip"
       ],
-      "artifactName": "3sendxyz-app-${version}-${arch}.${ext}"
+      "artifactName": "3sendxyz-app-win-${arch}.${ext}"
     },
     "nsis": {
       "oneClick": false,
